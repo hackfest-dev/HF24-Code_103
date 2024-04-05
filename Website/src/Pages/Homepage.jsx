@@ -1,6 +1,7 @@
 import React from 'react'
 import DoctorCard from '../Components/DoctorCard'
 import Select from "react-dropdown-select";
+import ChatBot from '../Components/ChatBot';
 
 const options = [
     {
@@ -60,6 +61,7 @@ const Homepage = () => {
             </div>
         </div>
       </div>
+      <ChatBot/>
     </div>
   )
 }

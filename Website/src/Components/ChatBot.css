@@ -1,0 +1,54 @@
+.chat-container {
+    position: relative;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2;
+}
+
+.chat-button {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: white;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    z-index: 3;
+}
+
+.chat-button.active {
+    transform: scale(0.9);
+}
+
+.chat-window {
+    position: fixed;
+    bottom: 0px;
+    left: 80px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    width: 300px;
+    height: 400px; 
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    transform: translateY(120%);
+    z-index: 3;
+}
+
+.chat-window.open {
+    transform: translateY(0);
+}
+
+.chat-content {
+    height: 100%;
+    overflow-y: auto;
+}
