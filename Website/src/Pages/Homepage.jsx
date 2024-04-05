@@ -1,15 +1,34 @@
 import React from 'react'
 import DoctorCard from '../Components/DoctorCard'
-import Dropdown from 'react-dropdown';
-import 'react-dropdown/style.css';
+import Select from "react-dropdown-select";
 
 const options = [
-  'one', 'two', 'three'
-];
+    {
+      id: 1,
+      name: 'Filter 1'
+    },
+    {
+      id: 2,
+      name: 'Filter 2'
+    },
+    {
+        id: 3,
+        name: 'Filter 3'
+    },
+    {
+        id: 4,
+        name: 'Filter 4'
+    },
+    {
+        id: 5,
+        name: 'Filter 5'
+    }
+  ];
+  
 
 const Homepage = () => {
   return (
-    <div className='h-[80vh]'>
+    <div className='h-[80vh] items-center'>
       <div className='flex flex-col md:flex-col lg:flex-row h-full gap-4'>
         <div className='basis-[60%] relative flex flex-col items-center'>
             <input aria-label='Search' placeholder='Search...' className='p-4 mx-auto shadow-lg rounded-full w-[36rem]'></input>
@@ -18,16 +37,26 @@ const Homepage = () => {
                 <DoctorCard/>
             </div>
         </div>
-        <div className='basis-[35%] bg-[#253239] rounded-xl px-5 py-2 mx-auto'>
-            <div>
-                const defaultOption = options[0];
-                <Dropdown options={options} onChange={this._onSelect} value={defaultOption} placeholder="Select an option" />;
+        <div className='basis-[35%] bg-[#253239] rounded-xl p-5'>
+            <div className=' m-4'>
+                <div className='font-dosis text-white text-xl text-center m-1'>Filters</div>
+                <Select
+                options={options}
+                labelField="name"
+                valueField="id"
+                onChange={() => {}}
+                placeholder="Select a Filter"
+                className='bg-[#E1DFEA] outline-none focus:outline-none w-full'
+                />
             </div>
-            <div>
-
+            <div className='m-4'>
+                <input className='p-5 h-[32rem] w-full mx-auto text-center' placeholder='Enter your own query here...'>
+                </input>
             </div>
-            <div>
-
+            <div className='m-4'>
+                <button className='w-full text-center p-5 bg-[#6495ED]'>
+                    Submit
+                </button>
             </div>
         </div>
       </div>
