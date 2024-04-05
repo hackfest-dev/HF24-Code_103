@@ -55,6 +55,7 @@ export default {
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],
         dosis: ["Dosis", "sans-serif"],
+        merriweather: ["Merriweather", "sans-serif"],
       },
       
     },

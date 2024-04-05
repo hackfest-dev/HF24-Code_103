@@ -2,12 +2,12 @@ import { useState } from 'react'
 import './App.css'
 import Navbar from './Components/Navbar'
 import Homepage from './Pages/Homepage'
+import LandPage from './Pages/LandPage'
 
 function App() {
   return (
     <>
-      <Navbar/>
-      <Homepage/>
+      <LandPage />
     </>
   )
 }

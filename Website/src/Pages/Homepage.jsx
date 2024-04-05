@@ -2,6 +2,7 @@ import React from 'react'
 import DoctorCard from '../Components/DoctorCard'
 import Select from "react-dropdown-select";
 import ChatBot from '../Components/ChatBot';
+import Navbar from '../Components/Navbar';
 
 const options = [
     {
@@ -29,6 +30,8 @@ const options = [
 
 const Homepage = () => {
   return (
+    <>
+    <Navbar/>
     <div className='h-[80vh] items-center'>
       <div className='flex flex-col md:flex-col lg:flex-row h-full gap-4'>
         <div className='basis-[60%] relative flex flex-col items-center'>
@@ -63,6 +66,7 @@ const Homepage = () => {
       </div>
       <ChatBot/>
     </div>
+    </>
   )
 }
 
