@@ -32,8 +32,8 @@ const Homepage = () => {
     <div className='h-[80vh] items-center'>
       <div className='flex flex-col md:flex-col lg:flex-row h-full gap-4'>
         <div className='basis-[60%] relative flex flex-col items-center'>
-            <input aria-label='Search' placeholder='Search...' className='p-4 mx-auto shadow-lg rounded-full w-[36rem]'></input>
-            <div className='flex flex-row p-8 gap-8'>
+            <input aria-label='Search' placeholder='Search...' className='p-4 mx-auto shadow-lg rounded-full w-[40%]'></input>
+            <div className='flex flex-col sm:flex-row p-8 gap-8'>
                 <DoctorCard/>
                 <DoctorCard/>
             </div>
