@@ -27,6 +27,9 @@ const options = [
     }
   ];
   
+function handleSubmit(e) {
+  e.prevent.default()
+}
 
 const Homepage = () => {
   return (
