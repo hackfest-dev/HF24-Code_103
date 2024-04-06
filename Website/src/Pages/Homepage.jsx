@@ -2,7 +2,8 @@ import DoctorCard from "../Components/DoctorCard";
 import Select from "react-dropdown-select";
 import ChatBot from "../Components/ChatBot";
 import Navbar from "../Components/Navbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import DoctorList from "../Components/DoctorList";
 const options = [
   {
     id: 1,
@@ -26,19 +27,18 @@ const options = [
   },
 ];
 
-function Loader() {
-  return <p className="loader">Loading...</p>;
-}
+// function Loader() {
+//   return <p className="loader">Loading...</p>;
+// }
 
-function ErrorMessage({ message }) {
-  return (
-    <p className="error">
-      <span>❗</span>
-      {message}
-    </p>
-  );
-}
-
+// function ErrorMessage({ message }) {
+//   return (
+//     <p className="error">
+//       <span>❗</span>
+//       {message}
+//     </p>
+//   );
+// }
 
 function SearchBar() {
   return (
@@ -52,27 +52,23 @@ function SearchBar() {
   );
 }
 
-
-
-function Filters() {
-  const [speciality,setSpeciality] = useState("");
-  const [place,setPlace] = useState("");
-  
-
+function Filters({ speciality, setSpeciality, place, setPlace }) {
   function handleSubmit(e) {
     e.preventDefault();
     // if(!description) return;
 
-    const newItem = {description,quantity,packed:false,id:Date.now()}
-    console.log(newItem)
-    setSpeciality("")
-    setPlace("")
+    // const newItem = { speciality, place, id: Date.now() };
+    // console.log(newItem);
+    setSpeciality("");
+    setPlace("");
   }
 
   return (
     <form onSubmit={handleSubmit}>
       <div className="flex flex-row gap-2 w-full justify-evenly">
         <select
+          value={speciality}
+          onChange={(e) => setSpeciality(e.target.value)}
           className="p-2 rounded-full bg-white shadow-lg outline-none"
           name="treatment"
           id="treatments"
@@ -161,6 +157,8 @@ function Filters() {
           </option>
         </select>
         <select
+          value={place}
+          onChange={(e) => setPlace(e.target.value)}
           className="p-4 rounded-full bg-white shadow-lg outline-none"
           name="city"
           id="cities"
@@ -270,6 +268,24 @@ function Filters() {
 }
 
 const Homepage = () => {
+  const [docs, setDocs] = useState([]);
+  const [speciality, setSpeciality] = useState("Cardiology");
+  const [place, setPlace] = useState("Choose a City");
+  useEffect(
+    function () {
+      async function getDoctors() {
+        const res = await fetch(
+          `http://localhost:8000/doctors?speciality=${speciality}`
+        );
+        const data = await res.json();
+        console.log(data)
+        setDocs(data);
+        // console.log(data);
+      }
+      getDoctors();
+    },
+    [speciality]
+  );
   return (
     <>
       <Navbar />
@@ -278,12 +294,14 @@ const Homepage = () => {
           <div className="basis-[60%] relative flex flex-col items-center">
             <div className="flex flex-col gap-8">
               <SearchBar />
-              <Filters />
+              <Filters
+                speciality={speciality}
+                setSpeciality={setSpeciality}
+                place={place}
+                setPlace={setPlace}
+              />
             </div>
-            <div className="flex flex-col sm:flex-row p-8 gap-8">
-              <DoctorCard />
-              <DoctorCard />
-            </div>
+            <DoctorList docs={docs} />
           </div>
           <div className="basis-[35%] bg-[#253239] rounded-xl p-5">
             <div className=" m-4">
