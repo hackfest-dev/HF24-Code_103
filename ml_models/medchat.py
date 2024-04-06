@@ -1,8 +1,11 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
+
 import os
 from langchain_community.llms import Ollama
 
 app = Flask(__name__)
+CORS(app)
 
 # Set environment variables
 os.environ["LANGCHAIN_TRACING_V2"] = "true"
@@ -16,16 +19,17 @@ def invoke():
     # Get the request data
     data = request.json
 
-    if 'message' in data:
-        message = data['message']
+    if 'prompt' in data:
+        prompt = data['prompt']
 
         # Invoke the model
-        response = llm.invoke(message)
+        response = llm.invoke(prompt)
+        print(response)
 
         # Return the response as JSON
         return jsonify({'response': response})
     else:
-        # If message is not provided in the request, return an error message
+        # If prompt is not provided in the request, return an error prompt
         return jsonify({'error': 'Message not provided'}), 400
 
 if __name__ == '__main__':
