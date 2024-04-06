@@ -27,19 +27,6 @@ const options = [
   },
 ];
 
-// function Loader() {
-//   return <p className="loader">Loading...</p>;
-// }
-
-// function ErrorMessage({ message }) {
-//   return (
-//     <p className="error">
-//       <span>❗</span>
-//       {message}
-//     </p>
-//   );
-// }
-
 function SearchBar() {
   return (
     <div className="flex flex-col items-center">
@@ -55,10 +42,6 @@ function SearchBar() {
 function Filters({ speciality, setSpeciality, place, setPlace }) {
   function handleSubmit(e) {
     e.preventDefault();
-    // if(!description) return;
-
-    // const newItem = { speciality, place, id: Date.now() };
-    // console.log(newItem);
     setSpeciality("");
     setPlace("");
   }
@@ -77,82 +60,82 @@ function Filters({ speciality, setSpeciality, place, setPlace }) {
           <option data-department_id="2" value="cancer">
             Cancer
           </option>
-          <option data-department_id="3" value="cardiology">
+          <option data-department_id="3" value="Cardiologist">
             Cardiology Treatment
           </option>
-          <option data-department_id="29" value="cosmetic-surgery">
+          <option data-department_id="29" value="Plastic Surgeon">
             Cosmetic Surgery
           </option>
-          <option data-department_id="21" value="cosmetology">
+          <option data-department_id="21" value="Cosmetologist">
             Cosmetology
           </option>
           <option data-department_id="23" value="dental-care">
             Dental Care
           </option>
-          <option data-department_id="24" value="dermatology">
+          <option data-department_id="24" value="Dermatologist">
             Dermatology
           </option>
-          <option data-department_id="32" value="endocrinology">
+          <option data-department_id="32" value="Endocrinologist">
             Endocrinology
           </option>
-          <option data-department_id="8" value="e-n-t-surgery">
+          <option data-department_id="8" value="ENT Surgeon">
             ENT
           </option>
-          <option data-department_id="18" value="gastroenterology">
+          <option data-department_id="18" value="Medical Gastroenterologist">
             Gastroenterology
           </option>
-          <option data-department_id="26" value="gender-reassignment-surgery">
+          <option data-department_id="26" value="GENDER REASSIGNMENT">
             Gender Reassignment Surgery
           </option>
-          <option data-department_id="31" value="general-medicine">
+          <option data-department_id="31" value="GENERAL MEDICINE">
             General Medicine
           </option>
-          <option data-department_id="19" value="general-surgery">
+          <option data-department_id="19" value="General Surgeon">
             General Surgery
           </option>
-          <option data-department_id="16" value="gynecology">
+          <option data-department_id="16" value="Gynecologist">
             Gynecology
           </option>
-          <option data-department_id="30" value="hematology">
+          <option data-department_id="30" value="Hematologist">
             Hematology
           </option>
-          <option data-department_id="22" value="ivf">
+          <option data-department_id="22" value="IVF">
             IVF
           </option>
-          <option data-department_id="20" value="nephrology">
+          <option data-department_id="20" value="Nephrologist">
             Nephrology
           </option>
-          <option data-department_id="4" value="neurology">
+          <option data-department_id="4" value="Neurologist">
             Neurology
           </option>
-          <option data-department_id="11" value="obesity-surgery">
+          <option data-department_id="11" value="Obesity and Bariatric Surgeon">
             Obesity
           </option>
-          <option data-department_id="10" value="ophthalmology">
+          <option data-department_id="10" value="Ophthalmologist">
             Ophthalmology
           </option>
-          <option data-department_id="1" value="organ-transplant">
+          <option data-department_id="1" value="Organ Transplant">
             Organ Transplant
           </option>
-          <option data-department_id="6" value="orthopedic">
+          <option data-department_id="6" value="Orthopedist">
             Orthopedic
           </option>
-          <option data-department_id="28" value="pediatric-cardiologist">
+          <option data-department_id="28" value="Pediatric Cardiologist">
             Pediatric Cardiology
           </option>
-          <option data-department_id="12" value="pediatric-surgery">
+          <option data-department_id="12" value="Pediatric Surgeon">
             Pediatrics
           </option>
-          <option data-department_id="17" value="rheumatology">
+          <option data-department_id="17" value="Rheumatologist">
             Rheumatology
           </option>
-          <option data-department_id="5" value="spine">
+          <option data-department_id="5" value="Spine Surgeon">
             Spine Surgery
           </option>
-          <option data-department_id="14" value="surgical-oncology">
+          <option data-department_id="14" value="Oncologist">
             Surgical Oncology
           </option>
-          <option data-department_id="7" value="urology">
+          <option data-department_id="7" value="Urologist">
             Urology
           </option>
         </select>
@@ -164,7 +147,7 @@ function Filters({ speciality, setSpeciality, place, setPlace }) {
           id="cities"
         >
           <option value="">Choose a City</option>
-          <option data-country="india" data-city_id="135" value="ahmedabad">
+          <option data-country="india" data-city_id="135" value="Ahmedabad">
             Ahmedabad
           </option>
           <option data-country="india" data-city_id="433" value="amritsar">
@@ -271,6 +254,8 @@ const Homepage = () => {
   const [docs, setDocs] = useState([]);
   const [speciality, setSpeciality] = useState("Cardiology");
   const [place, setPlace] = useState("Choose a City");
+  const [doctorIDs, setDoctorIds] = useState([]);
+  const [query, setQuery] = useState("");
   useEffect(
     function () {
       async function getDoctors() {
@@ -278,21 +263,36 @@ const Homepage = () => {
           `http://localhost:8000/doctors?speciality=${speciality}`
         );
         const data = await res.json();
-        console.log(data)
+        
+        const ids = data.map(doctor => doctor._id);
+        
+        console.log(ids);
+        
+        setDoctorIds(ids);
+        
         setDocs(data);
-        // console.log(data);
       }
       getDoctors();
     },
     [speciality]
   );
+  
+const handleSubmitQuery = () => {
+  if (query.trim() !== "") {
+    const updatedDoctorIds = [...doctorIDs, { query }];
+    setDoctorIds(updatedDoctorIds);
+    setQuery("");
+    console.log("Updated Doctor IDs:", updatedDoctorIds);
+  }
+};
+  
   return (
     <>
       <Navbar />
       <div className="h-[80vh] items-center">
         <div className="flex flex-col md:flex-col lg:flex-row h-full gap-4">
           <div className="basis-[60%] relative flex flex-col items-center">
-            <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-8 mb-5">
               <SearchBar />
               <Filters
                 speciality={speciality}
@@ -321,10 +321,15 @@ const Homepage = () => {
               <input
                 className="p-5 h-[28rem] w-full mx-auto text-center"
                 placeholder="Enter your own query here..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
               ></input>
             </div>
             <div className="m-4">
-              <button className="w-full text-center p-5 bg-[#6495ED]">
+              <button
+                className="w-full text-center p-5 bg-[#6495ED]"
+                onClick={handleSubmitQuery}
+              >
                 Submit
               </button>
             </div>
