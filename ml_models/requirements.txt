@@ -1,4 +1,5 @@
 langchain
 langchain-community
 langchainhub
-flask
+chromadb
+bs4
