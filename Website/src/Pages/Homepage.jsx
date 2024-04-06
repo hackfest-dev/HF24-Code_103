@@ -277,14 +277,17 @@ const Homepage = () => {
     [speciality]
   );
   
-const handleSubmitQuery = () => {
-  if (query.trim() !== "") {
-    const updatedDoctorIds = [...doctorIDs, { query }];
-    setDoctorIds(updatedDoctorIds);
-    setQuery("");
-    console.log("Updated Doctor IDs:", updatedDoctorIds);
-  }
-};
+  const handleSubmitQuery = () => {
+    if (query.trim() !== "") {
+      const updatedDoctorIds = [...doctorIDs, { query }];
+      setDoctorIds(updatedDoctorIds);
+      setQuery("");
+      const jsonContent = JSON.stringify({ ids: updatedDoctorIds });
+      console.log("Updated Doctor IDs:", updatedDoctorIds);
+      console.log("Doctor IDs JSON:", jsonContent);
+    }
+  };
+  
   
   return (
     <>
