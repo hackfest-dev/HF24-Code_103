@@ -4,6 +4,7 @@ import ChatBot from "../Components/ChatBot";
 import Navbar from "../Components/Navbar";
 import { useEffect, useState } from "react";
 import DoctorList from "../Components/DoctorList";
+import DocLlm from "../Components/DocLlm";
 const options = [
   {
     id: 1,
@@ -256,6 +257,9 @@ const Homepage = () => {
   const [place, setPlace] = useState("Choose a City");
   const [doctorIDs, setDoctorIds] = useState([]);
   const [query, setQuery] = useState("");
+  const [prompt, setPrompt] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [messages, setMessages] = useState([]);
   useEffect(
     function () {
       async function getDoctors() {
@@ -279,14 +283,21 @@ const Homepage = () => {
   
   const handleSubmitQuery = () => {
     if (query.trim() !== "") {
-      const updatedDoctorIds = [...doctorIDs, { query }];
+      const updatedDoctorIds = {'_ids':doctorIDs,'query':query}
       setDoctorIds(updatedDoctorIds);
       setQuery("");
-      const jsonContent = JSON.stringify({ ids: updatedDoctorIds });
-      console.log("Updated Doctor IDs:", updatedDoctorIds);
-      console.log("Doctor IDs JSON:", jsonContent);
     }
+      // const jsonContent = JSON.stringify({ ids: updatedDoctorIds });
+      // console.log("Updated Doctor IDs:", updatedDoctorIds);
+      // console.log("Doctor IDs JSON:", jsonContent);
+    }
+  
+
+  const handleInputChange = (e) => {
+    setPrompt(e.target.value);
   };
+
+  
   
   
   return (
@@ -322,11 +333,15 @@ const Homepage = () => {
             </div>
             <div className="m-4">
               <input
-                className="p-5 h-[28rem] w-full mx-auto text-center"
-                placeholder="Enter your own query here..."
+              type="text"
+                className="p-5 h-[14rem] w-full mx-auto text-center flex flex-col "
+                placeholder="Is there a specific type of doctor you'd prefer not to see, based on your past experiences or personal preferences?"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
               ></input>
+              <div className="h-[14rem] bg-slate-800 overflow-scroll">
+                <DocLlm prompt={prompt} setPrompt={setPrompt} isLoading={isLoading} setIsLoading={setIsLoading} messages={messages} setMessages={setMessages} handleInputChange={handleInputChange} doctorJSON={doctorIDs}/>
+              </div>
             </div>
             <div className="m-4">
               <button
